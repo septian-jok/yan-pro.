@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIAN PROJECT</title>
+    <style>
+        /* --- 1. PENGATURAN DASAR & TEMA HIJAU NYALA --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        :root { --bg-dark: #0b0f12; --bg-card: #141a1f; --neon-green: #39ff14; --text-light: #ffffff; --text-gray: #a0aec0; }
+        body { background-color: var(--bg-dark); color: var(--text-light); scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* --- 2. ANIMASI LOADING PREMIUM (WETT YAA) --- */
+        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #050709; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s ease, visibility 0.4s ease; }
+        .premium-spinner { width: 65px; height: 65px; border: 4px solid rgba(57, 255, 20, 0.1); border-top: 4px solid var(--neon-green); border-radius: 50%; animation: spin 0.8s linear infinite; box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); margin-bottom: 25px; }
+        .loading-text { color: var(--neon-green); font-size: 1.4rem; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 0 15px rgba(57, 255, 20, 0.8); animation: pulse-glow 1.2s ease-in-out infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 25px var(--neon-green); } }
+        .loader-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        /* --- 3. HEADER NAVIGASI --- */
+        header { background: #0f1418; border-bottom: 2px solid var(--neon-green); padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 0 15px rgba(57, 255, 20, 0.2); }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.6); letter-spacing: 2px; }
+        nav a { color: var(--text-light); text-decoration: none; margin-left: 15px; font-weight: 600; padding: 8px 16px; border-radius: 4px; }
+        nav a:hover { color: var(--bg-dark); background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+        .section-title { font-size: 2.2rem; margin-bottom: 35px; color: var(--neon-green); text-transform: uppercase; border-left: 5px solid var(--neon-green); padding-left: 15px; }
+
+        /* --- 4. LAYOUT POP-UP FORM PENDAFTARAN (OVERLAY) --- */
+        .overlay-auth { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 7, 9, 0.96); z-index: 5000; display: flex; justify-content: center; align-items: center; display: none; }
+        .register-card { background: var(--bg-card); border: 2px solid var(--neon-green); border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(57, 255, 20, 0.3); }
+        .register-card h3 { text-align: center; color: var(--neon-green); font-size: 1.8rem; margin-bottom: 20px; letter-spacing: 1px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-gray); margin-bottom: 5px; }
+        .form-group input { width: 100%; background: #0b0f12; border: 1px solid #232d35; color: white; padding: 12px; border-radius: 6px; font-size: 1rem; }
+        .form-group input:focus { border-color: var(--neon-green); outline: none; }
+        .btn-submit-auth { width: 100%; background: var(--neon-green); color: var(--bg-dark); border: none; padding: 14px; border-radius: 6px; font-weight: 900; font-size: 1.1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; transition: 0.3s; }
+        .btn-submit-auth:hover { box-shadow: 0 0 15px var(--neon-green); }
+        .timer-text { text-align: center; color: #ff3333; font-weight: bold; margin-top: 12px; font-size: 1.1rem; letter-spacing: 1px; }
+
+        /* --- 5. TIAN PROMUY LAYOUT & GAME --- */
+        .promuy-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 768px) { .promuy-layout { grid-template-columns: 1fr; } }
+        .box-category { background: var(--bg-card); border: 1px solid #232d35; border-radius: 12px; padding: 30px; }
+        .box-category h3 { font-size: 1.5rem; margin-bottom: 20px; border-bottom: 1px solid #232d35; padding-bottom: 10px; }
+        .tool-list li { padding: 12px; background: #1c242b; margin-bottom: 10px; border-radius: 6px; list-style: none; border-left: 3px solid var(--neon-green); }
+        .game-area { background: #1c242b; border: 2px dashed var(--neon-green); border-radius: 8px; padding: 20px; margin-top: 15px; text-align: center; }
+        .money-dashboard { background: #0b0f12; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; color: var(--neon-green); border: 1px solid var(--neon-green); margin-bottom: 15px; }
+        .animal-illusion { font-size: 4rem; background: #0b0f12; padding: 20px; border-radius: 8px; margin: 15px 0; display: inline-block; letter-spacing: -15px; border: 1px solid #232d35; min-width: 150px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .opt-btn { background: #141a1f; border: 1px solid #3498db; color: #fff; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .opt-btn:hover { background: #3498db; box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+        .game-feedback { margin-top: 15px; font-weight: bold; font-size: 1.1rem; }
+
+        /* --- 6. ECOMERS & MEMBERSHIP --- */
+        .ecomers-grid, .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .product-card, .member-card { background: var(--bg-card); border-radius: 12px; border: 1px solid #232d35; padding: 25px; transition: 0.3s; }
+        .product-card:hover, .member-card.active { border-color: var(--neon-green); transform: translateY(-5px); }
+        .product-img-holder { background: #232d35; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border-radius: 6px; }
+        .product-price { color: var(--neon-green); font-weight: bold; font-size: 1.3rem; margin: 10px 0; display: block; }
+        .time-badge { background: var(--neon-green); color: var(--bg-dark); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
+        .price-tag { font-size: 2rem; font-weight: 800; margin: 15px 0; }
+        .btn-buy { background: transparent; border: 2px solid var(--neon-green); color: var(--neon-green); padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        .btn-buy:hover { background: var(--neon-green); color: var(--bg-dark); box-shadow: 0 0 10px var(--neon-green); }
+        footer { background: #0f1418; text-align: center; padding: 30px; margin-top: 80px; border-top: 1px solid #232d35; color: var(--text-gray); }
+    </style>
+</head>
+<body>
+
+    <!-- ⏳ ANIMASI LOADING PREMIUM -->
+    <div id="loader-wrapper"><div class="premium-spinner"></div><div class="loading-text">WETT YAA</div></div>
+
+    <!-- 🔒 JENDELA POP-UP PENDAFTARAN UTAMA -->
+    <div class="overlay-auth" id="auth-modal">
+        <!-- LANGKAH 1: ISI DATA DIRI -->
+        <div class="register-card" id="reg-step-1">
+            <h3>DAFTAR DULU YAW</h3>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label>Username:</label>
+                <input type="text" id="reg-username" placeholder="Buat nama pengguna Anda">
+            </div>
+            
+            <div class="form-group">
+                <label>Gmail Asli:</label>
+                <input type="email" id="reg-email" placeholder="Masukkan gmail aktif Anda">
+            </div>
+            
+            <div class="form-group">
+                <label>Kata Sandi:</label>
+                <input type="password" id="reg-pass" placeholder="Buat kata sandi baru">
+            </div>
+            
+            <div class="form-group">
+                <label>Mengulang Kata Sandi:</label>
+                <input type="password" id="reg-pass-confirm" placeholder="Ketik ulang kata sandi Anda">
+            </div>
+            
+            <button class="btn-submit-auth" onclick="handleRegisterStep1()">DAFTAR SEKARANG YAW</button>
+        </div>
+
+        <!-- LANGKAH 2: VERIFIKASI KODE OTP 3 DIGIT -->
+        <div class="register-card" id="reg-step-2" style="display: none;">
+            <h3>VERIFIKASI OTP</h3>
+            <p style="font-size: 0.85rem; color: var(--text-gray); text-align: center; margin-bottom: 15px;" id="otp-info-text">Kode OTP 3-digit telah dikirim ke email Anda.</p>
+            
+            <div class="form-group">
+                <label>Kolom Kode OTP 3 Digit:</label>
+                <input type="number" id="otp-input" placeholder="Masukkan 3 digit angka" min="100" max="999">
+            </div>
+            
+            <!-- TIMER HITUNG MUNDUR 7 MENIT -->
+            <div class="timer-text" id="otp-timer">07:00</div>
+            
+            <button class="btn-submit-auth" style="background: #3498db; color: #fff;" onclick="handleVerifyOTP()">KIRIM YAWW</button>
+        </div>
+    </div>
+
+    <!-- WEB ISI UTAMA -->
+    <header>
+        <div class="logo">TIAN PROJECT</div>
+        <nav>
+            <a href="#tian-promuy">Tian Promuy</a>
+            <a href="#ecomers">Ecomers</a>
+            <a href="#membership">Membership</a>
+        </nav>
+    </header>
+
+    <section class="container" id="tian-promuy">
